@@ -1,0 +1,31 @@
+cmake -G "MinGW Makefiles" .
+cmake --build .
+
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug
+cmake --build .
+
+01\01.exe
+
+
+Ни одна из команд git add не должна выводить сообщений. Если где-то было сообщение, значит, у вас
+возникла ошибка. В этом случае проверьте команду и введите её снова.
+
+git init
+git add CMakeLists.txt
+git add 00/CMakeLists.txt
+git add 00/main.cpp
+
+Теперь введите команду git status и посмотрите на её вывод. Зелёным цветом помечены файлы,
+добавленные под контроль версий, красным помечены остальные файлы.
+
+git status
+
+
+Пришло время зафиксировать свою первую версию! Введите команду git commit -m "Added A+B
+program" .
+
+git commit -m "Added A+B program" .
+
+Теперь введите команду git clean -fd .
+
+git clean -fd .
