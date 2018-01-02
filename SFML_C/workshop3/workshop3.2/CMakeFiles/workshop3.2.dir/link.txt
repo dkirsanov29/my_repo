@@ -1,3 +1,0 @@
-D:\Downloads\CppDistro-32bit\CppDistro32\cmake\bin\cmake.exe -E remove -f CMakeFiles\workshop3.2.dir/objects.a
-D:\Downloads\CppDistro-32bit\CppDistro32\msys32\mingw32\bin\ar.exe cr CMakeFiles\workshop3.2.dir/objects.a @CMakeFiles\workshop3.2.dir\objects1.rsp
-D:\Downloads\CppDistro-32bit\CppDistro32\msys32\mingw32\bin\g++.exe    -Wl,--whole-archive CMakeFiles\workshop3.2.dir/objects.a -Wl,--no-whole-archive  -o workshop3.2.exe -Wl,--out-implib,libworkshop3.2.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\workshop3.2.dir\linklibs.rsp
