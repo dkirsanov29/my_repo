@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
+#include <vector>
 #include <iostream>
 
 using namespace std;
@@ -8,33 +9,45 @@ using namespace sf;
 
 constexpr unsigned int WINDOW_WIDTH = 800;
 constexpr unsigned int WINDOW_HEIGHT = 600;
-constexpr unsigned int DEF_RADIUS = 40;
-constexpr char WINDOW_TITLE[] = "The Ball";
+constexpr unsigned int DEF_RADIUS = 80;
+constexpr unsigned int ANTI_ALIASING_LEV = 10;
+constexpr char WINDOW_TITLE[] = "Yellow ball";
+constexpr char FOND_PATH[] = "D:/cpp/Projects/labs/workshop3/workshop3.1/fonds/arial.ttf";
+constexpr char ERR_MSG[] = "Error: could not load fond file";
 
 struct Ball
 {
     CircleShape shape;
+    Text textLine;
 };
 
 void pollEvents(RenderWindow& window);
-void redrawFrame(RenderWindow& window);
-void init(Ball& ball);
-
+void redrawFrame(RenderWindow& window, Ball currBall);
+void init(Ball& currBall);
 
 int main()
 {
-	ContextSettings settings;
+    ContextSettings settings;
+    settings.antialiasingLevel = ANTI_ALIASING_LEV;
     RenderWindow window(VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), WINDOW_TITLE, Style::Default, settings);
-        
-	init(ball);
-
-	while (window.isOpen())
+    Ball currBall;
+    init(currBall);
+    while (window.isOpen())
     {
-	    pollEvents(window);
-        redrawFrame(window);
+        pollEvents(window);
+        redrawFrame(window, currBall);
     }
 }
 
+void init(Ball& currBall)
+{
+    currBall.shape.setFillColor(Color(255, 192, 0));
+    currBall.shape.setRadius(DEF_RADIUS);
+    currBall.shape.setOrigin(currBall.shape.getRadius(), currBall.shape.getRadius());
+    currBall.shape.setPosition(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    currBall.shape.setOutlineColor(Color(47, 85, 151));
+    currBall.shape.setOutlineThickness(0.05 * currBall.shape.getRadius());
+}
 
 void pollEvents(RenderWindow& window)
 {
@@ -52,71 +65,9 @@ void pollEvents(RenderWindow& window)
     }
 }
 
-
-
-Vector2f setOffset(Ball ball)
-{
-    if ((ball.shape.getPosition().y >= WINDOW_HEIGHT - ball.shape.getRadius()) || (ball.shape.getPosition().y <= ball.shape.getRadius()))
-    {
-        ball.offset.y = -ball.offset.y;
-    }
-
-    if ((ball.shape.getPosition().x >= WINDOW_WIDTH - ball.shape.getRadius()) || (ball.shape.getPosition().x <= ball.shape.getRadius()))
-    {
-        ball.offset.x = -ball.offset.x;
-    }
-
-    return ball.offset;
-}
-
-void update(vector<Ball>& balls, float deltaTime)
-{
-    for (auto& ball: balls)
-    {
-        ball.offset = setOffset(ball);
-        ball.shape.move(ball.offset * deltaTime);
-    }
-}
-
-void redrawFrame(RenderWindow& window, vector<Ball>& balls)
+void redrawFrame(RenderWindow& window, Ball currBall)
 {
     window.clear();
-    for (auto& ball: balls)
-    {
-        window.draw(ball.shape);
-    }
+    window.draw(currBall.shape);
     window.display();
-}
-
-void init(vector<Ball>& balls)
-{
-    const vector<Color> colors = {
-        Color(128, 64, 255),
-        Color(255, 64, 128),
-        Color(128, 255, 64),
-        Color(64, 128, 255)    
-    };
-
-    const vector<Vector2f> speeds = {
-        { 100.f, 100.f },
-        { -150.f, -150.f },
-        { 200.f, 200.f },
-        { -250.f, -250.f }    
-    };
-
-    const vector<Vector2f> positions = {
-        { 5 * DEF_RADIUS, 5 * DEF_RADIUS },
-        { WINDOW_WIDTH - 3 * DEF_RADIUS, WINDOW_HEIGHT - 12 * DEF_RADIUS },
-        { WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 },
-        { WINDOW_WIDTH - 3 * DEF_RADIUS, WINDOW_HEIGHT - 3 * DEF_RADIUS }
-    };
-
-    for (int i = 0; i < BALLS_COUNT; ++i)
-    {
-        balls.at(i).offset = speeds.at(i);
-        balls.at(i).shape.setRadius(DEF_RADIUS);
-        balls.at(i).shape.setPosition(positions.at(i));
-        balls.at(i).shape.setFillColor(colors.at(i));
-        balls.at(i).shape.setOrigin(balls.at(i).shape.getRadius(), balls.at(i).shape.getRadius());
-    }
 }

@@ -8,17 +8,18 @@
 #include <set>
 #include <random>
 #include <ctime>
-#include "view.h"
 
 using namespace std;
 using namespace sf;
 
 constexpr unsigned int WINDOW_WIDTH = 800;
 constexpr unsigned int WINDOW_HEIGHT = 600;
+constexpr unsigned int GAME_FIELD_WIDTH = 3 * WINDOW_WIDTH;
+constexpr unsigned int GAME_FIELD_HEIGHT = 3 * WINDOW_HEIGHT;
 constexpr unsigned int BALLS_COUNT = 4;
 constexpr unsigned int DEF_RADIUS = 40;
 constexpr unsigned int Q_FRAMES = 10;
-constexpr unsigned int DEF_BALLS_POS_FACTOR = 3;
+constexpr unsigned int VIEW_SPEED = 200;
 constexpr char WINDOW_TITLE[] = "Moving balls";
 
 static const sf::Color BACKGROUND_COLOR = sf::Color(0, 0, 0);
@@ -77,34 +78,32 @@ float sqr(float);
 Vector2f getSpeedAfterStrike(const Ball&, const Ball&);
 Vector2f setOffset(Ball ball);
 void removeDeathBalls(vector<Ball>& balls);
-void update(vector<Ball>&, float);
-void redrawFrame(RenderWindow&, vector<Ball>&);
+void update(vector<Ball>&, float, View&);
+void redrawFrame(RenderWindow&, vector<Ball>&, View&);
 void initDefaultPlayGround(PRNG, vector<Ball>&, Ball&, set<Colr>&);
-void init(PRNG, set<Colr>&, vector<Ball>&, Ball&);
+void init(PRNG, set<Colr>&, vector<Ball>&, Ball&, View&);
 
 int main()
 {
     Clock clock;
+    View view;
     ContextSettings settings;
     RenderWindow window(VideoMode({WINDOW_WIDTH, WINDOW_HEIGHT}), WINDOW_TITLE, Style::Default, settings);
-    view.reset(sf::FloatRect(0, 0, 640, 480));
     vector<Ball> balls(BALLS_COUNT);
     PRNG generator;
     Ball ball;
     set<Colr> isColrs; 
 
     initGenerator(generator);
-    init(generator, isColrs, balls, ball);
+    init(generator, isColrs, balls, ball, view);
 
     while (window.isOpen())
     {
         initGenerator(generator);
         float deltaTime = clock.restart().asSeconds();
         pollEvents(window, generator, balls, ball, isColrs);
-        update(balls, deltaTime);
-        viewmap(deltaTime);
-        window.setView(view);
-        redrawFrame(window, balls);
+        update(balls, deltaTime, view);
+        redrawFrame(window, balls, view);
     }
 }
 
@@ -169,12 +168,12 @@ void initNewBall(PRNG generator, vector<Ball>& balls, Ball& ball, set<Colr>& isC
     ball.shape.setRadius(DEF_RADIUS);
     Colr colr = initColor(generator, isColrs);
     ball.shape.setFillColor(sf::Color(colr.red, colr.green, colr.blue));
-    ball.shape.setPosition(random_index(generator, setBallPosition(WINDOW_WIDTH, ball.shape.getRadius())), random_index(generator, setBallPosition(WINDOW_HEIGHT, ball.shape.getRadius())));
+    ball.shape.setPosition(random_index(generator, setBallPosition(GAME_FIELD_WIDTH, ball.shape.getRadius())), random_index(generator, setBallPosition(GAME_FIELD_HEIGHT, ball.shape.getRadius())));
     ball.shape.setOrigin(ball.shape.getRadius(), ball.shape.getRadius());
     
     for (auto&& item: balls)
     {
-        if (ball.shape.getPosition().y >= WINDOW_HEIGHT - ball.shape.getRadius())
+        if (ball.shape.getPosition().y >= GAME_FIELD_HEIGHT - ball.shape.getRadius())
         {
             return;
         }
@@ -184,7 +183,7 @@ void initNewBall(PRNG generator, vector<Ball>& balls, Ball& ball, set<Colr>& isC
             return;
         }
 
-        if (ball.shape.getPosition().x >= WINDOW_WIDTH - ball.shape.getRadius())
+        if (ball.shape.getPosition().x >= GAME_FIELD_WIDTH - ball.shape.getRadius())
         {
             return;
         }
@@ -257,12 +256,12 @@ Vector2f getSpeedAfterStrike(const Ball& first, const Ball& second)
 
 Vector2f setOffset(Ball ball)
 {
-    if ((ball.shape.getPosition().y >= WINDOW_HEIGHT - ball.shape.getRadius()) || (ball.shape.getPosition().y <= ball.shape.getRadius()))
+    if ((ball.shape.getPosition().y >= GAME_FIELD_HEIGHT - ball.shape.getRadius()) || (ball.shape.getPosition().y <= ball.shape.getRadius()))
     {
         ball.offset.y = -ball.offset.y;
     }
 
-    if ((ball.shape.getPosition().x >= WINDOW_WIDTH - ball.shape.getRadius()) || (ball.shape.getPosition().x <= ball.shape.getRadius()))
+    if ((ball.shape.getPosition().x >= GAME_FIELD_WIDTH - ball.shape.getRadius()) || (ball.shape.getPosition().x <= ball.shape.getRadius()))
     {
         ball.offset.x = -ball.offset.x;
     }
@@ -276,10 +275,41 @@ void removeDeathBalls(vector<Ball>& balls)
     balls.erase(iterator, balls.end());
 }
 
-void update(vector<Ball>& balls, float deltaTime)
+void update(vector<Ball>& balls, float deltaTime, View& view)
 {
     constexpr float MAX_DELTA_TIME = 0.01f;
     deltaTime = std::min(deltaTime, MAX_DELTA_TIME);
+
+    const sf::Vector2f viewCenter = view.getCenter();
+
+    if (Keyboard::isKeyPressed(Keyboard::Up))
+    {
+        if (viewCenter.y > WINDOW_HEIGHT / 2)
+        {
+            view.move(0, -VIEW_SPEED * deltaTime);
+        }
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Down))
+    {
+        if (viewCenter.y < GAME_FIELD_HEIGHT - WINDOW_HEIGHT / 2)
+        {
+            view.move(0, VIEW_SPEED * deltaTime);
+        }
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Left))
+    {
+        if (viewCenter.x > WINDOW_WIDTH / 2)
+        {
+            view.move(-VIEW_SPEED * deltaTime, 0);
+        }
+    }
+    if (Keyboard::isKeyPressed(Keyboard::Right))
+    {
+        if (viewCenter.x < GAME_FIELD_WIDTH - WINDOW_WIDTH / 2)
+        {
+            view.move(VIEW_SPEED * deltaTime, 0);
+        }
+    }
 
     for (size_t fi = 0; fi < balls.size(); ++fi)
     {
@@ -303,7 +333,6 @@ void update(vector<Ball>& balls, float deltaTime)
     {
         for (auto& ball: balls)
         {
-        
             ball.shape.move(ball.offset * (deltaTime / Q_FRAMES));
             if (tmp == Q_FRAMES)
             {
@@ -313,12 +342,12 @@ void update(vector<Ball>& balls, float deltaTime)
         }
         tmp++;
     }
-    removeDeathBalls(balls);
 }
 
-void redrawFrame(RenderWindow& window, vector<Ball>& balls)
+void redrawFrame(RenderWindow& window, vector<Ball>& balls, View& view)
 {
     window.clear(BACKGROUND_COLOR);
+    window.setView(view);
     for (auto& ball: balls)
     {
         window.draw(ball.shape);        
@@ -336,14 +365,14 @@ void initDefaultPlayGround(PRNG generator, vector<Ball>& balls, Ball& ball, set<
         balls.at(i).shape.setRadius(DEF_RADIUS);
         Colr colr = initColor(generator, isColrs);
         balls.at(i).shape.setFillColor(sf::Color(colr.red, colr.green, colr.blue));
-        balls.at(i).shape.setPosition(random_index(generator, setBallPosition(WINDOW_WIDTH, balls.at(i).shape.getRadius())), random_index(generator, setBallPosition(WINDOW_HEIGHT, balls.at(i).shape.getRadius())));    
+        balls.at(i).shape.setPosition(random_index(generator, setBallPosition(GAME_FIELD_WIDTH, balls.at(i).shape.getRadius())), random_index(generator, setBallPosition(GAME_FIELD_HEIGHT, balls.at(i).shape.getRadius())));    
         balls.at(i).shape.setOrigin(balls.at(i).shape.getRadius(), balls.at(i).shape.getRadius());
         
         for (size_t fi = 0; fi < balls.size(); ++fi)
         {
             while((balls.at(fi).shape.getPosition().x <= balls.at(fi).shape.getRadius()) || (balls.at(fi).shape.getPosition().y <= balls.at(fi).shape.getRadius()))
             {
-                balls.at(fi).shape.setPosition(random_index(generator, setBallPosition(DEF_BALLS_POS_FACTOR * WINDOW_WIDTH, balls.at(fi).shape.getRadius())), random_index(generator, setBallPosition(DEF_BALLS_POS_FACTOR * WINDOW_HEIGHT, balls.at(fi).shape.getRadius())));
+                balls.at(fi).shape.setPosition(random_index(generator, setBallPosition(GAME_FIELD_WIDTH, balls.at(fi).shape.getRadius())), random_index(generator, setBallPosition(GAME_FIELD_HEIGHT, balls.at(fi).shape.getRadius())));
                 balls.at(fi).shape.setOrigin(balls.at(fi).shape.getRadius(), balls.at(fi).shape.getRadius());
             }
 
@@ -353,7 +382,7 @@ void initDefaultPlayGround(PRNG generator, vector<Ball>& balls, Ball& ball, set<
                 Ball& second = balls[si];
                 while((distance(first, second) <= (first.shape.getRadius() + second.shape.getRadius())) || (balls.at(si).shape.getPosition().x <= balls.at(si).shape.getRadius()) || (balls.at(si).shape.getPosition().y <= balls.at(si).shape.getRadius()))
                 {
-                    balls.at(si).shape.setPosition(random_index(generator, setBallPosition(WINDOW_WIDTH, balls.at(si).shape.getRadius())), random_index(generator, setBallPosition(WINDOW_HEIGHT, balls.at(si).shape.getRadius())));
+                    balls.at(si).shape.setPosition(random_index(generator, setBallPosition(GAME_FIELD_WIDTH, balls.at(si).shape.getRadius())), random_index(generator, setBallPosition(GAME_FIELD_HEIGHT, balls.at(si).shape.getRadius())));
                     balls.at(si).shape.setOrigin(balls.at(si).shape.getRadius(), balls.at(si).shape.getRadius());
                 }
             }
@@ -361,7 +390,9 @@ void initDefaultPlayGround(PRNG generator, vector<Ball>& balls, Ball& ball, set<
     }
 }
 
-void init(PRNG generator, set<Colr>& isColrs, vector<Ball>& balls, Ball& ball)
+void init(PRNG generator, set<Colr>& isColrs, vector<Ball>& balls, Ball& ball, View& view)
 {
     initDefaultPlayGround(generator, balls, ball, isColrs);
+    view.reset(sf::FloatRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
+    view.setCenter(GAME_FIELD_WIDTH / 2, GAME_FIELD_HEIGHT / 2);
 }
