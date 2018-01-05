@@ -1,0 +1,75 @@
+IF (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F')
+IF (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T')
+IF (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T')
+IF (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F')
+
+IF (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F')
+IF (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T')
+IF (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T')
+IF (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F')
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F')
+
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F')
+
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') 
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') 
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') 
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') 
+
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') 
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') 
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') 
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F')
+
+
+////////////////////////////////////////////////////////////////////////////////////////
+
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'F')
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'F')
+
+
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'T') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'F') AND (IsGap = 'T') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'T') AND (WasSemicolon := 'T') AND  (Is—olon := 'T')
+IF (IsBegin = 'F') AND (IsGap = 'F') AND (IsSemicolon := 'F') AND (WasSemicolon := 'F') AND  (Is—olon := 'T')

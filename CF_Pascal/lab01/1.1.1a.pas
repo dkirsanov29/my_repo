@@ -1,0 +1,5 @@
+PROGRAM Printgoodbye(INPUT, OUTPUT);
+BEGIN
+  WRITELN('GOODBYE')
+END.
+

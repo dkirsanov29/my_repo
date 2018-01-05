@@ -1,0 +1,4 @@
+BEGIN
+  WRITE(Ch);;;
+  Ch := Ch1;
+END.

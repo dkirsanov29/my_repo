@@ -1,0 +1,5 @@
+Например:
+{ *** Stage 3 *** } BEGIN WRITE('BEGIN END.' , Ch )   ; WRITELN  ;;; {END.} END. { END. Stage 3 }     
+
+
+               

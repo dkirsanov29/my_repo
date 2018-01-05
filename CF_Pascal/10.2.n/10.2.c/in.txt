@@ -1,0 +1,1 @@
+ BEGIN READ(  Ch1  )  ;READ( Ch2,  Ch3   )  ; ;;; Ch2:=Ch3; WRITELN( 'Result = ', Ch1,  Ch2,  Ch3  );;; END.

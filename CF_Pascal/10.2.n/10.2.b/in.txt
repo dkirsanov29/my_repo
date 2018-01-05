@@ -1,0 +1,1 @@
+BEGIN  READ(   Ch1,  Ch2, Ch3)      ; ; Ch2 :=Ch3;  WRITELN(' Hello world!!! ',  Ch1,   Ch2,  Ch3  );;; END.

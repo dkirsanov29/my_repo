@@ -1,0 +1,8 @@
+BEGIN
+  BEGIN
+  END 
+END.
+
+PerfomanceCondition = IsEnd
+
+PrevSign = IsNotPrevSign

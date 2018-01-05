@@ -1,0 +1,5 @@
+PROGRAM Printlada(INPUT, OUTPUT);
+BEGIN
+  WRITELN('кюдю')
+END.
+
